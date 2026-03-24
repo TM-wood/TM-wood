@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — T.M.Wood</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cream:#f4f0e8;--warm:#faf8f4;--dark:#181614;--mid:#6a635c;--light:#b0a99f;--border:#e0d9cf;--accent:#7a5c38;--accent2:#c49a6c;--sw:72px; }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Outfit',sans-serif;background:var(--warm);color:var(--dark);font-weight:300;overflow-x:hidden;}
+
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:var(--dark);display:flex;flex-direction:column;align-items:center;z-index:200;padding:28px 0 20px;}
+  .sidebar-logo{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;letter-spacing:0.12em;color:var(--warm);text-decoration:none;margin-bottom:auto;padding-bottom:20px;}
+  .sidebar-logo span{color:var(--accent2);}
+  .sidebar-nav{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:16px;}
+  .sidebar-link{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.35);text-decoration:none;padding:14px 10px;transition:color 0.2s;position:relative;}
+  .sidebar-link::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:2px;height:0;background:var(--accent2);transition:height 0.25s;}
+  .sidebar-link:hover{color:var(--warm);}
+  .sidebar-link:hover::before,.sidebar-link.active::before{height:24px;}
+  .sidebar-link.active{color:var(--accent2);}
+  .sidebar-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12);margin:4px 0;}
+  .lang-switcher{display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);width:100%;}
+  .lang-btn{font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.28);background:none;border:none;cursor:pointer;padding:5px 0;transition:color 0.2s;font-family:'Outfit',sans-serif;width:100%;text-align:center;}
+  .lang-btn:hover{color:rgba(255,255,255,0.65);}
+  .lang-btn.active{color:var(--accent2);font-weight:500;}
+
+  .page-wrap{margin-left:var(--sw);}
+  .page-header{padding:80px 56px 56px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;}
+  .page-eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .page-eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);}
+  .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,4rem);font-weight:300;line-height:1.1;}
+  .page-title em{font-style:italic;color:var(--accent);}
+  .page-header-right{font-size:0.82rem;color:var(--mid);max-width:280px;text-align:right;line-height:1.7;}
+
+  .filter-bar{padding:24px 56px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;background:var(--warm);}
+  .filter-btn{padding:8px 20px;border:1px solid var(--border);background:none;font-family:'Outfit',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);cursor:pointer;transition:all 0.2s;}
+  .filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .filter-btn.active{background:var(--dark);border-color:var(--dark);color:#fff;}
+
+  .portfolio-main{padding:48px 56px 80px;}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;}
+  .p-card{position:relative;overflow:hidden;cursor:pointer;background:var(--cream);}
+  .p-card:nth-child(1){grid-column:1/8;}.p-card:nth-child(2){grid-column:8/13;}
+  .p-card:nth-child(3){grid-column:1/5;}.p-card:nth-child(4){grid-column:5/10;}.p-card:nth-child(5){grid-column:10/13;}
+  .p-card:nth-child(6){grid-column:1/6;}.p-card:nth-child(7){grid-column:6/13;}
+  .p-card:nth-child(8){grid-column:1/13;}
+  .p-img{width:100%;display:block;transition:transform 0.5s ease;}
+  .p-card:nth-child(1) .p-img,.p-card:nth-child(2) .p-img{height:420px;}
+  .p-card:nth-child(3) .p-img,.p-card:nth-child(4) .p-img,.p-card:nth-child(5) .p-img{height:300px;}
+  .p-card:nth-child(6) .p-img,.p-card:nth-child(7) .p-img{height:360px;}
+  .p-card:nth-child(8) .p-img{height:280px;}
+  .p-card:nth-child(1) .p-img{background:linear-gradient(145deg,#c9a87c 0%,#5c3d1e 100%);}
+  .p-card:nth-child(2) .p-img{background:linear-gradient(145deg,#3d2b14 0%,#8a6233 100%);}
+  .p-card:nth-child(3) .p-img{background:linear-gradient(135deg,#d4b896 0%,#8a6a3f 100%);}
+  .p-card:nth-child(4) .p-img{background:linear-gradient(135deg,#2c1f12 0%,#6b4c2a 100%);}
+  .p-card:nth-child(5) .p-img{background:linear-gradient(135deg,#b8864e 0%,#3d2b14 100%);}
+  .p-card:nth-child(6) .p-img{background:linear-gradient(150deg,#e8d5b0 0%,#a0713a 100%);}
+  .p-card:nth-child(7) .p-img{background:linear-gradient(145deg,#1c1208 0%,#5a3d1e 60%,#b07840 100%);}
+  .p-card:nth-child(8) .p-img{background:linear-gradient(160deg,#8a6a3f 0%,#3d2b14 50%,#1c1a17 100%);}
+  .p-card:hover .p-img{transform:scale(1.04);}
+  .p-overlay{position:absolute;inset:0;background:rgba(24,22,20,0.84);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;opacity:0;transition:opacity 0.3s;}
+  .p-card:hover .p-overlay{opacity:1;}
+  .p-tag{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;}
+  .p-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;font-weight:400;margin-bottom:6px;}
+  .p-detail{font-size:0.78rem;color:var(--light);}
+  .p-info{padding:14px 0 4px;}
+  .p-info-name{font-size:0.84rem;font-weight:500;}
+  .p-info-type{font-size:0.74rem;color:var(--mid);}
+
+  .quote-bar{background:var(--dark);padding:56px;display:flex;align-items:center;justify-content:space-between;gap:40px;}
+  .quote-bar-eyebrow{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;}
+  .quote-bar-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,2.5vw,2.4rem);font-weight:300;color:#fff;line-height:1.2;}
+  .quote-bar-title em{font-style:italic;color:var(--accent2);}
+  .btn-bar{display:inline-block;padding:16px 48px;border:1px solid rgba(255,255,255,0.25);color:#fff;text-decoration:none;font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;transition:background 0.2s,border-color 0.2s;flex-shrink:0;}
+  .btn-bar:hover{background:var(--accent);border-color:var(--accent);}
+
+  footer{background:#100e0c;padding:52px 56px 36px;color:rgba(255,255,255,0.5);}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:28px;gap:40px;flex-wrap:wrap;}
+  .footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--warm);letter-spacing:0.06em;margin-bottom:8px;}
+  .footer-brand span{color:var(--accent2);}
+  .footer-tagline{font-size:0.8rem;line-height:1.7;max-width:260px;}
+  .footer-col-title{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:16px;}
+  .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .footer-links a{font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;}
+  .footer-links a:hover{color:var(--warm);}
+  .footer-bottom{display:flex;justify-content:space-between;font-size:0.7rem;color:rgba(255,255,255,0.2);}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.75s ease,transform 0.75s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+
+  .mobile-nav{display:none;}
+  @media(max-width:768px){
+    :root{--sw:0px;}
+    .sidebar{display:none;}.page-wrap{margin-left:0;}
+    .mobile-nav{display:flex;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dark);padding:14px 20px;justify-content:space-between;align-items:center;}
+    .mobile-nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--warm);text-decoration:none;}
+    .mobile-nav-logo span{color:var(--accent2);}
+    .mobile-nav-right{display:flex;align-items:center;gap:20px;}
+    .mobile-nav-links{display:flex;gap:18px;}
+    .mobile-nav-links a{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;}
+    .mobile-lang{display:flex;gap:6px;}
+    .mobile-lang button{font-size:0.6rem;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;}
+    .mobile-lang button.active{color:var(--accent2);font-weight:500;}
+    .page-header{margin-top:48px;padding:48px 24px 36px;flex-direction:column;align-items:flex-start;gap:16px;}
+    .page-header-right{text-align:left;}
+    .filter-bar{padding:20px 24px;}
+    .portfolio-main{padding:32px 24px 60px;}
+    .portfolio-grid{display:flex;flex-direction:column;}
+    .p-card .p-img{height:260px!important;}
+    .quote-bar{flex-direction:column;padding:44px 24px;}
+    footer{padding:40px 24px 28px;}
+    .footer-top{flex-direction:column;gap:28px;}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-logo">T<span>.</span>M<span>.</span>Wood</a>
+  <nav class="sidebar-nav">
+    <a href="portfolio.html" class="sidebar-link active" data-i18n="nav_portfolio">Portfolio</a>
+    <div class="sidebar-dot"></div>
+    <a href="quote.html" class="sidebar-link" data-i18n="nav_quote">Get a Quote</a>
+  </nav>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ro')">RO</button>
+    <button class="lang-btn" onclick="setLang('hu')">HU</button>
+  </div>
+</aside>
+
+<nav class="mobile-nav">
+  <a href="index.html" class="mobile-nav-logo">T<span>.</span>M<span>.</span>Wood</a>
+  <div class="mobile-nav-right">
+    <div class="mobile-nav-links">
+      <a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+      <a href="quote.html" data-i18n="nav_quote">Get a Quote</a>
+    </div>
+    <div class="mobile-lang">
+      <button class="active" onclick="setLang('en')">EN</button>
+      <button onclick="setLang('ro')">RO</button>
+      <button onclick="setLang('hu')">HU</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-eyebrow" data-i18n="page_eyebrow">The Work</div>
+      <h1 class="page-title" data-i18n="page_title">Every piece,<br><em>one of a kind.</em></h1>
+    </div>
+    <p class="page-header-right" data-i18n="page_sub">Each commission is unique. These are a selection of recent builds — hover to see details.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterWork(this,'all')" data-i18n="filter_all">All</button>
+    <button class="filter-btn" onclick="filterWork(this,'table')" data-i18n="filter_tables">Tables</button>
+    <button class="filter-btn" onclick="filterWork(this,'storage')" data-i18n="filter_storage">Shelving & Storage</button>
+    <button class="filter-btn" onclick="filterWork(this,'seating')" data-i18n="filter_seating">Seating</button>
+    <button class="filter-btn" onclick="filterWork(this,'desk')" data-i18n="filter_desks">Desks</button>
+  </div>
+
+  <div class="portfolio-main">
+    <div class="portfolio-grid" id="portfolio-grid">
+      <div class="p-card reveal" data-cat="table">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_dining">Dining Table</div><div class="p-name" data-i18n="p1_name">The Marlowe Table</div><div class="p-detail" data-i18n="p1_detail">White Oak · 240cm · Waterfall edge</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p1_name">Marlowe Dining Table</div><div class="p-info-type" data-i18n="p1_type">White Oak — Dining</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="storage">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_shelving">Shelving</div><div class="p-name" data-i18n="p2_name">Studio Shelving System</div><div class="p-detail" data-i18n="p2_detail">Walnut · Floor-to-ceiling · Modular</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p2_name">Studio Shelving System</div><div class="p-info-type" data-i18n="p2_type">Walnut — Storage</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="seating">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_chair">Chair</div><div class="p-name" data-i18n="p3_name">Low Lounge Chair</div><div class="p-detail" data-i18n="p3_detail">Ash · Hand-carved · Custom upholstery</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p3_name">Low Lounge Chair</div><div class="p-info-type" data-i18n="p3_type">Ash — Seating</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="table">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_coffee">Coffee Table</div><div class="p-name" data-i18n="p4_name">The Slab Table</div><div class="p-detail" data-i18n="p4_detail">Live-edge Walnut · Steel base</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p4_name">Slab Coffee Table</div><div class="p-info-type" data-i18n="p4_type">Live-edge Walnut — Living</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="table">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_side">Side Table</div><div class="p-name" data-i18n="p5_name">Turned Side Table</div><div class="p-detail" data-i18n="p5_detail">Cherry · Lathe-turned legs</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p5_name">Turned Side Table</div><div class="p-info-type" data-i18n="p5_type">Cherry — Accent</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="desk">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_desk">Desk</div><div class="p-name" data-i18n="p6_name">The Studio Desk</div><div class="p-detail" data-i18n="p6_detail">White Oak · Integrated cable management</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p6_name">Studio Desk</div><div class="p-info-type" data-i18n="p6_type">White Oak — Office</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="storage">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_credenza">Credenza</div><div class="p-name" data-i18n="p7_name">Low Credenza</div><div class="p-detail" data-i18n="p7_detail">Ash · Sliding doors · Brass handles</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p7_name">Low Credenza</div><div class="p-info-type" data-i18n="p7_type">Ash — Storage</div></div>
+      </div>
+      <div class="p-card reveal" data-cat="desk">
+        <div class="p-img"></div>
+        <div class="p-overlay"><div class="p-tag" data-i18n="tag_suite">Full Suite</div><div class="p-name" data-i18n="p8_name">Home Office Suite</div><div class="p-detail" data-i18n="p8_detail">White Oak · Desk + credenza + shelving</div></div>
+        <div class="p-info"><div class="p-info-name" data-i18n="p8_name">Home Office Suite</div><div class="p-info-type" data-i18n="p8_type">White Oak — Office</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-bar reveal">
+    <div>
+      <div class="quote-bar-eyebrow" data-i18n="qbar_eyebrow">Work with Mathias</div>
+      <div class="quote-bar-title" data-i18n="qbar_title">Seen something you like?<br>Let's make it <em>yours.</em></div>
+    </div>
+    <a href="quote.html" class="btn-bar" data-i18n="qbar_btn">Request a Quote →</a>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">T<span>.</span>M<span>.</span>Wood</div>
+        <div class="footer-tagline" data-i18n="footer_tagline">Bespoke hardwood furniture by Toth Mathias. Designed with intent, built by hand.</div>
+      </div>
+      <div>
+        <div class="footer-col-title" data-i18n="footer_nav">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html" data-i18n="footer_home">Home</a></li>
+          <li><a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a></li>
+          <li><a href="quote.html" data-i18n="nav_quote">Get a Quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title" data-i18n="footer_contact">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@tmwood.com">hello@tmwood.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 T.M.Wood — Toth Mathias</span>
+      <span data-i18n="footer_sign">Designed with intent.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+const T = {
+  en: {
+    nav_portfolio:"Portfolio", nav_quote:"Get a Quote",
+    page_eyebrow:"The Work", page_title:"Every piece,<br><em>one of a kind.</em>",
+    page_sub:"Each commission is unique. These are a selection of recent builds — hover to see details.",
+    filter_all:"All", filter_tables:"Tables", filter_storage:"Shelving & Storage", filter_seating:"Seating", filter_desks:"Desks",
+    tag_dining:"Dining Table", tag_shelving:"Shelving", tag_chair:"Chair", tag_coffee:"Coffee Table",
+    tag_side:"Side Table", tag_desk:"Desk", tag_credenza:"Credenza", tag_suite:"Full Suite",
+    p1_name:"The Marlowe Table", p1_detail:"White Oak · 240cm · Waterfall edge", p1_type:"White Oak — Dining",
+    p2_name:"Studio Shelving System", p2_detail:"Walnut · Floor-to-ceiling · Modular", p2_type:"Walnut — Storage",
+    p3_name:"Low Lounge Chair", p3_detail:"Ash · Hand-carved · Custom upholstery", p3_type:"Ash — Seating",
+    p4_name:"The Slab Table", p4_detail:"Live-edge Walnut · Steel base", p4_type:"Live-edge Walnut — Living",
+    p5_name:"Turned Side Table", p5_detail:"Cherry · Lathe-turned legs", p5_type:"Cherry — Accent",
+    p6_name:"The Studio Desk", p6_detail:"White Oak · Integrated cable management", p6_type:"White Oak — Office",
+    p7_name:"Low Credenza", p7_detail:"Ash · Sliding doors · Brass handles", p7_type:"Ash — Storage",
+    p8_name:"Home Office Suite", p8_detail:"White Oak · Desk + credenza + shelving", p8_type:"White Oak — Office",
+    qbar_eyebrow:"Work with Mathias", qbar_title:"Seen something you like?<br>Let's make it <em>yours.</em>", qbar_btn:"Request a Quote →",
+    footer_tagline:"Bespoke hardwood furniture by Toth Mathias. Designed with intent, built by hand.",
+    footer_nav:"Navigate", footer_home:"Home", footer_contact:"Contact", footer_sign:"Designed with intent."
+  },
+  ro: {
+    nav_portfolio:"Portofoliu", nav_quote:"Cere o Ofertă",
+    page_eyebrow:"Lucrările", page_title:"Fiecare piesă,<br><em>unică în felul ei.</em>",
+    page_sub:"Fiecare comandă este unică. Acestea sunt o selecție din lucrările recente — treci cu mouse-ul pentru detalii.",
+    filter_all:"Toate", filter_tables:"Mese", filter_storage:"Rafturi și Depozitare", filter_seating:"Scaune", filter_desks:"Birouri",
+    tag_dining:"Masă de Sufragerie", tag_shelving:"Rafturi", tag_chair:"Scaun", tag_coffee:"Măsuță de Cafea",
+    tag_side:"Măsuță", tag_desk:"Birou", tag_credenza:"Comodă", tag_suite:"Ansamblu Complet",
+    p1_name:"Masa Marlowe", p1_detail:"Stejar Alb · 240cm · Muchie cascadă", p1_type:"Stejar Alb — Sufragerie",
+    p2_name:"Sistem de Rafturi Studio", p2_detail:"Nuc · De la podea la tavan · Modular", p2_type:"Nuc — Depozitare",
+    p3_name:"Fotoliu Joasă", p3_detail:"Frasin · Sculptat manual · Tapițerie personalizată", p3_type:"Frasin — Scaune",
+    p4_name:"Masa Slab", p4_detail:"Nuc cu muchie vie · Bază din oțel", p4_type:"Nuc Viu — Living",
+    p5_name:"Măsuță cu Picioare Strunjite", p5_detail:"Cireș · Picioare strunjite la strung", p5_type:"Cireș — Accent",
+    p6_name:"Biroul Studio", p6_detail:"Stejar Alb · Management cabluri integrat", p6_type:"Stejar Alb — Birou",
+    p7_name:"Comodă Joasă", p7_detail:"Frasin · Uși glisante · Mânere din alamă", p7_type:"Frasin — Depozitare",
+    p8_name:"Ansamblu Birou Acasă", p8_detail:"Stejar Alb · Birou + comodă + rafturi", p8_type:"Stejar Alb — Birou",
+    qbar_eyebrow:"Lucrează cu Mathias", qbar_title:"Ți-a plăcut ceva?<br>Hai să îl facem <em>al tău.</em>", qbar_btn:"Cere o Ofertă →",
+    footer_tagline:"Mobilier din lemn masiv de Toth Mathias. Proiectat cu intenție, construit cu mâna.",
+    footer_nav:"Navigare", footer_home:"Acasă", footer_contact:"Contact", footer_sign:"Proiectat cu intenție."
+  },
+  hu: {
+    nav_portfolio:"Portfólió", nav_quote:"Árajánlat Kérése",
+    page_eyebrow:"A Munkák", page_title:"Minden darab<br><em>egyedi.</em>",
+    page_sub:"Minden megrendelés különleges. Ezek egy válogatás a legutóbbi munkákból — vidd rá az egeret a részletekért.",
+    filter_all:"Összes", filter_tables:"Asztalok", filter_storage:"Polcok és Tárolás", filter_seating:"Ülőbútorok", filter_desks:"Íróasztalok",
+    tag_dining:"Étkezőasztal", tag_shelving:"Polcrendszer", tag_chair:"Szék", tag_coffee:"Dohányzóasztal",
+    tag_side:"Kisasztal", tag_desk:"Íróasztal", tag_credenza:"Szekrény", tag_suite:"Teljes Garnitúra",
+    p1_name:"A Marlowe Asztal", p1_detail:"Fehér Tölgy · 240cm · Vízesés él", p1_type:"Fehér Tölgy — Étkezés",
+    p2_name:"Stúdió Polcrendszer", p2_detail:"Dió · Padlótól mennyezetig · Moduláris", p2_type:"Dió — Tárolás",
+    p3_name:"Alacsony Pihenőszék", p3_detail:"Kőris · Kézzel faragott · Egyedi kárpit", p3_type:"Kőris — Ülőbútor",
+    p4_name:"A Slab Asztal", p4_detail:"Élő szélű Dió · Acél alap", p4_type:"Élő Szélű Dió — Nappali",
+    p5_name:"Esztergált Kisasztal", p5_detail:"Cseresznye · Esztergált lábak", p5_type:"Cseresznye — Kiegészítő",
+    p6_name:"A Stúdió Íróasztal", p6_detail:"Fehér Tölgy · Integrált kábelkezelés", p6_type:"Fehér Tölgy — Iroda",
+    p7_name:"Alacsony Szekrény", p7_detail:"Kőris · Tolóajtók · Sárgaréz fogantyúk", p7_type:"Kőris — Tárolás",
+    p8_name:"Otthoni Iroda Garnitúra", p8_detail:"Fehér Tölgy · Íróasztal + szekrény + polcok", p8_type:"Fehér Tölgy — Iroda",
+    qbar_eyebrow:"Dolgozz Mátyással", qbar_title:"Megtetszett valami?<br>Csináljuk <em>a tiédet.</em>", qbar_btn:"Árajánlat Kérése →",
+    footer_tagline:"Egyedi tömörfa bútorok Tóth Mátyástól. Tervezve szándékkal, készítve kézzel.",
+    footer_nav:"Navigáció", footer_home:"Főoldal", footer_contact:"Kapcsolat", footer_sign:"Tervezve szándékkal."
+  }
+};
+
+let currentLang = localStorage.getItem('tmwood_lang') || 'en';
+function setLang(lang) {
+  currentLang = lang; localStorage.setItem('tmwood_lang', lang); applyLang();
+  document.querySelectorAll('.lang-btn,.mobile-lang button').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase()===lang));
+}
+function applyLang() {
+  const d = T[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el => { const k=el.getAttribute('data-i18n'); if(d[k]!==undefined) el.innerHTML=d[k]; });
+  document.documentElement.lang = currentLang;
+}
+function filterWork(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.p-card').forEach(c => { c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'; });
+}
+const obs = new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80);}),{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+setLang(currentLang);
+</script>
+</body>
+</html>
