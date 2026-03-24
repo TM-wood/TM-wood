@@ -16,23 +16,7 @@ html { scroll-behavior: smooth; }
 body { font-family:'Outfit',sans-serif; background:var(--warm); color:var(--dark); font-weight:300; overflow-x:hidden; }
 
 /* ── SIDEBAR ── */
-.sidebar { position:fixed; left:0; top:0; bottom:0; width:var(--sw); background:var(--dark); display:flex; flex-direction:column; align-items:center; z-index:200; padding:28px 0 20px; }
-.sidebar-logo { writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg); font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:600; letter-spacing:0.12em; color:var(--warm); text-decoration:none; margin-bottom:auto; padding-bottom:20px; }
-.sidebar-logo span { color:var(--accent2); }
-.sidebar-nav { display:flex; flex-direction:column; align-items:center; gap:6px; margin-bottom:16px; }
-.sidebar-link { writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg); font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.35); text-decoration:none; padding:14px 10px; transition:color 0.2s; position:relative; cursor:pointer; }
-.sidebar-link::before { content:''; position:absolute; right:0; top:50%; transform:translateY(-50%); width:2px; height:0; background:var(--accent2); transition:height 0.25s; }
-.sidebar-link:hover { color:var(--warm); }
-.sidebar-link:hover::before, .sidebar-link.active::before { height:24px; }
-.sidebar-link.active { color:var(--accent2); }
-.sidebar-dot { width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.12); margin:4px 0; }
-.lang-switcher { display:flex; flex-direction:column; align-items:center; gap:2px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); width:100%; }
-.lang-btn { font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.28); background:none; border:none; cursor:pointer; padding:5px 0; transition:color 0.2s; font-family:'Outfit',sans-serif; width:100%; text-align:center; }
-.lang-btn:hover { color:rgba(255,255,255,0.65); }
-.lang-btn.active { color:var(--accent2); font-weight:500; }
 
-/* ── PAGES ── */
-.page-wrap { margin-left:var(--sw); }
 .page { display:none; }
 .page.active { display:block; }
 
@@ -111,7 +95,7 @@ body { font-family:'Outfit',sans-serif; background:var(--warm); color:var(--dark
 .btn-bar:hover { background:var(--accent); border-color:var(--accent); }
 
 /* ── PORTFOLIO PAGE ── */
-.page-header { padding:80px 56px 56px; background:var(--cream); border-bottom:1px solid var(--border); display:flex; align-items:flex-end; justify-content:space-between; }
+.page-header { margin-top: 80px;} { padding:80px 56px 56px; background:var(--cream); border-bottom:1px solid var(--border); display:flex; align-items:flex-end; justify-content:space-between; }
 .page-eyebrow { font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; gap:10px; }
 .page-eyebrow::before { content:''; width:22px; height:1px; background:var(--accent); }
 .page-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,4vw,4rem); font-weight:300; line-height:1.1; }
@@ -225,24 +209,86 @@ footer { background:#100e0c; padding:52px 56px 36px; color:rgba(255,255,255,0.5)
 
 .reveal { opacity:1; transform:none; transition:opacity 0.75s ease,transform 0.75s ease; }
 </style>
+  .top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--dark);
+  z-index: 300;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--warm);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-logo span {
+  color: var(--accent2);
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--warm);
+}
+
+.nav-lang {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-lang button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.nav-lang button:hover {
+  color: var(--accent2);
+}
 </head>
 <body>
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">T<span>.</span>M<span>.</span>Wood</a>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <a class="sidebar-logo" onclick="showPage('home')" style="cursor:pointer">T<span>.</span>M<span>.</span>Wood</a>
-  <nav class="sidebar-nav">
-    <a class="sidebar-link" onclick="showPage('portfolio')" data-i18n="nav_portfolio">Portfolio</a>
-    <div class="sidebar-dot"></div>
-    <a class="sidebar-link" onclick="showPage('quote')" data-i18n="nav_quote">Get a Quote</a>
-  </nav>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('ro')">RO</button>
-    <button class="lang-btn" onclick="setLang('hu')">HU</button>
+    <div class="nav-links">
+      <a href="portfolio.html">Portfolio</a>
+      <a href="quote.html">Get a Quote</a>
+    </div>
+
+    <div class="nav-lang">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('ro')">RO</button>
+      <button onclick="setLang('hu')">HU</button>
+    </div>
   </div>
-</aside>
-
+</nav>
 <div class="page-wrap">
 
   <!-- ═══════════════════════════ HOME PAGE ═══════════════════════════ -->
